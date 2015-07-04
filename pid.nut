@@ -25,18 +25,18 @@
 
 class Pid 
 {
-	Input = 0.0;
-	Output = 0.0;
-	Setpoint = 0.0;
-	Kp = 0.0;
-	Ki = 0.0;
-	Kd = 0.0;
+    Input = 0.0;
+    Output = 0.0;
+    Setpoint = 0.0;
+    Kp = 0.0;
+    Ki = 0.0;
+    Kd = 0.0;
     dispKp = 0.0;
     dispKi = 0.0;
     dispKd = 0.0;
     DIRECT = 0;
     REVERSE = 1;
-  	controllerDirection = 0;
+    controllerDirection = 0;
     MANUAL = 0;
     AUTOMATIC = 1;
     inAuto = false;
@@ -56,12 +56,12 @@ class Pid
 /////////////////////////////////////////////////////////////////////////////
 // Function:    constructor
 // Description: Create a Pid class instance. The parameters specified
-//				here are those for which we can't setup reliable defaults,
-//				so we need to have the user set them. 
+//		here are those for which we can't setup reliable defaults,
+// 		so we need to have the user set them. 
 // Arguments:   _kp - loop Proportional 
-//				_ki - loop Integral
-//				_kd - loop Derivitive
-//				_controllerDirection - DIRECT or REVERSE drive
+//		_ki - loop Integral
+//		_kd - loop Derivitive
+//		_controllerDirection - DIRECT or REVERSE drive
 /////////////////////////////////////////////////////////////////////////////
 function Pid::constructor(_kp,_ki,_kd,_controllerDirection)
 {
@@ -73,8 +73,8 @@ function Pid::constructor(_kp,_ki,_kd,_controllerDirection)
 /////////////////////////////////////////////////////////////////////////////
 // Function:    Compute
 // Description: This, as the say, is where the magic happens. This function
-//				should be called from the main loop. The function will decide
-//				for itself whether a new pid Output needs to be computed 
+//		should be called from the main loop. The function will decide
+//		for itself whether a new pid Output needs to be computed 
 // Arguments:   None
 /////////////////////////////////////////////////////////////////////////////
 function Pid::Compute() 
@@ -90,7 +90,7 @@ function Pid::Compute()
         else if (ITerm < outMin) ITerm = outMin;
         dInput = Input - lastInput;
 
-		// Comput PID output
+	// Comput PID output
         Output = Kp * error + ITerm - Kd * dInput;
         if (Output > outMax) Output = outMax;
         else if (Output < outMin) Output = outMin;
@@ -105,12 +105,12 @@ function Pid::Compute()
 /////////////////////////////////////////////////////////////////////////////
 // Function:    SetTunings
 // Description: This function allows the controller's dymanic performace to
-//				be adjusted. It's called automatically from the constructor,
-//				but tunings can also be adjusted on the fly during normal 
+//		be adjusted. It's called automatically from the constructor,
+//		but tunings can also be adjusted on the fly during normal 
 //              operation
 // Arguments:   _kp - loop Proportional 
-//				_ki - loop Integral
-//				_kd - loop Derivitive
+//		_ki - loop Integral
+//		_kd - loop Derivitive
 /////////////////////////////////////////////////////////////////////////////
 function Pid::SetTunings(_kp, _ki, _kd) 
 {
@@ -136,7 +136,7 @@ function Pid::SetTunings(_kp, _ki, _kd)
 /////////////////////////////////////////////////////////////////////////////
 // Function:    SetSampleTime
 // Description: Sets the period, in Milliseconds, at which the calculation
-//				is performed. 
+//		is performed. 
 // Arguments:   _newSampleTime - New SampleTime
 /////////////////////////////////////////////////////////////////////////////
 function Pid::SetSampleTime(_newSampleTime)
@@ -154,13 +154,13 @@ function Pid::SetSampleTime(_newSampleTime)
 /////////////////////////////////////////////////////////////////////////////
 // Function:    SetOutputLimits
 // Description: This function will be used far more often than SetInputLimits.
-//				While the input to the controller will generally be in the 
-//				0-1023 range (which is the default already), the output will be 
-//				a little different. Maybe they'll be doing a time window and
-//				will need 0-8000 or something. Or maybe they'll want to clamp
-//				from 0-125. Who Knows. At any rate, that can all be done here
+//		While the input to the controller will generally be in the 
+//		0-1023 range (which is the default already), the output will be 
+//		a little different. Maybe they'll be doing a time window and
+//		will need 0-8000 or something. Or maybe they'll want to clamp
+//		from 0-125. Who Knows. At any rate, that can all be done here
 // Arguments:   _min - Minimum output
-//				_max - Maximum output
+//		_max - Maximum output
 /////////////////////////////////////////////////////////////////////////////
 function Pid::SetOutputLimits(_min, _max)
 {
@@ -183,8 +183,8 @@ function Pid::SetOutputLimits(_min, _max)
 /////////////////////////////////////////////////////////////////////////////
 // Function:    SetMode
 // Description: Allows the controller Mode to be set to manual (0) or
-//				Automatic (non-zero).  When the transition from manual to 
-//				auto occurs, the controller is automatically initialized. 
+//		Automatic (non-zero).  When the transition from manual to 
+//		auto occurs, the controller is automatically initialized. 
 // Arguments:   _mode - controller mode
 /////////////////////////////////////////////////////////////////////////////
 function Pid::SetMode(_mode)
@@ -202,7 +202,7 @@ function Pid::SetMode(_mode)
 /////////////////////////////////////////////////////////////////////////////
 // Function:    Initialize
 // Description: Does all the things that need to happen to ensure a bumpless
-//				transfer from manual to automatic mode. 
+//		transfer from manual to automatic mode. 
 // Arguments:   None
 /////////////////////////////////////////////////////////////////////////////
 function Pid::Initialize()
@@ -218,10 +218,10 @@ function Pid::Initialize()
 /////////////////////////////////////////////////////////////////////////////
 // Function:    SetControllerDirection
 // Description: The PID will either be connected to a DIRECT acting process
-//				(+Output leads to +Input) or a REVERSE acting process (+Output 
-//				leads to -Input)  We need to know which one, because otherwise
-//				we may increase output when we should be decreasing. This is 
-//				called from the constructor.
+//		(+Output leads to +Input) or a REVERSE acting process (+Output 
+//		leads to -Input)  We need to know which one, because otherwise
+//		we may increase output when we should be decreasing. This is 
+//		called from the constructor.
 // Arguments:   _direction - controller direction
 /////////////////////////////////////////////////////////////////////////////    
 function Pid::SetControllerDirection(_direction)
@@ -239,9 +239,9 @@ function Pid::SetControllerDirection(_direction)
 /////////////////////////////////////////////////////////////////////////////
 // Function:    Status
 // Description: Just because you set the Kp=-1 doesn't mean it actually
-//				happened. These function query the internal state of the PID. 
-//				They're here for display purposes. These are the functions
-//				the PID front-end uses for example. 
+//		happened. These function query the internal state of the PID. 
+//		They're here for display purposes. These are the functions
+//		the PID front-end uses for example. 
 // Arguments:   None
 /////////////////////////////////////////////////////////////////////////////    
 function Pid::GetKp() { return dispKp; }
